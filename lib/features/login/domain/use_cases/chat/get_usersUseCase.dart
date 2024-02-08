@@ -4,10 +4,10 @@ import 'package:chat_app/features/login/domain/repositories/chat_repo.dart';
 import 'package:chat_app/features/login/domain/use_cases/Base_UseCase.dart';
 import 'package:dartz/dartz.dart';
 
-class GetUserUseCase extends BaseUseCase<List<UserModel>, void> {
+class GetUsersUseCase extends BaseUseCase<List<UserModel>, void> {
   final ChatRepo chatRepo;
 
-  GetUserUseCase({required this.chatRepo});
+  GetUsersUseCase({required this.chatRepo});
   @override
   Future<Either<Failure, List<UserModel>>> call([param]) async {
     return await chatRepo.getUserRepo();

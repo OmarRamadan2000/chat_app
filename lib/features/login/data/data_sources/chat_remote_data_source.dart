@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/core/utils/app_strings.dart';
 import 'package:chat_app/features/login/data/models/message_model.dart';
 import 'package:chat_app/features/login/data/models/user.dart';
@@ -6,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class ChatRemoteDataSource {
   Future<List<UserModel>> getUsers();
   Future<void> sendMessage(MessageModel message);
+  Stream<List<MessageModel>> getMessages(String param);
 }
 
 class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
@@ -45,5 +48,11 @@ class ChatRemoteDataSourceImpl extends ChatRemoteDataSource {
         .doc(message.senderId)
         .collection('messages')
         .add(message.toJson());
+  }
+
+  @override
+  Stream<List<MessageModel>> getMessages(String param) {
+    // TODO: implement getMessages
+    throw UnimplementedError();
   }
 }

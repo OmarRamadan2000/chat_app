@@ -3,6 +3,7 @@ import 'package:chat_app/core/cache_helper/cache_helper.dart';
 import 'package:chat_app/core/utils/app_strings.dart';
 import 'package:chat_app/features/login/presentation/pages/Auth/login.dart';
 import 'package:chat_app/features/login/presentation/pages/bottom_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -14,6 +15,9 @@ class SplashScreen extends StatelessWidget {
     var uId = CacheHelper.getData(key: 'uId');
     if (uId != null) {
       AppStrings.uId = uId;
+      if (kDebugMode) {
+        print(AppStrings.uId);
+      }
     }
 
     return AnimatedSplashScreen(

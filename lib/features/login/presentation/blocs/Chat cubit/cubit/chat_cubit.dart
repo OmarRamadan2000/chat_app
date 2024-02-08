@@ -15,10 +15,10 @@ class ChatCubit extends Cubit<ChatState> {
   ChatCubit(this.getUserUseCase, this.sendMessageUseCase)
       : super(ChatInitial());
 
-  final GetUserUseCase getUserUseCase;
+  final GetUsersUseCase getUserUseCase;
   final SendMessageUseCase sendMessageUseCase;
-
-  Future<void> getUsers() async {
+  // final GetUMessagesUseCase getUMessagesUseCase;
+  void getUsers() async {
     emit(GetUsersLoding());
     var result = await getUserUseCase.call();
 

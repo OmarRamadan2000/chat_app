@@ -19,7 +19,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await di.init();
+  di.init();
   await CacheHelper.init();
   runApp(const MyApp());
 }
@@ -34,15 +34,13 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) {
             return ManagePasswordCubit();
           }),
-          BlocProvider(create: (context) {
-            return SettingsCubit();
+          BlocProvider(create: (_) {
+            return di.sl<SettingsCubit>()..getUser();
           }),
           BlocProvider(create: (_) {
             return di.sl<AuthCubit>();
           }),
-          BlocProvider(create: (_) {
-            return di.sl<ChatCubit>();
-          })
+          BlocProvider(create: (_) => di.sl<ChatCubit>()..getUsers()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

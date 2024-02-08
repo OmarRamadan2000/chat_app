@@ -1,6 +1,7 @@
 import 'package:chat_app/core/utils/Funcations/vaildtor.dart';
 import 'package:chat_app/core/utils/app_strings.dart';
 import 'package:chat_app/features/login/presentation/blocs/Auth%20cubit/cubit/auth_cubit.dart';
+import 'package:chat_app/features/login/presentation/blocs/cubit/manage_password_cubit.dart';
 import 'package:chat_app/features/login/presentation/pages/Auth/sign_up.dart';
 import 'package:chat_app/features/login/presentation/pages/bottom_bar.dart';
 import 'package:chat_app/features/login/presentation/widgets/component.dart';
@@ -18,6 +19,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool loading = false;
+    var manageCubit = BlocProvider.of<ManagePasswordCubit>(context);
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is SignInSuccess) {
@@ -87,7 +89,11 @@ class Login extends StatelessWidget {
                       controller: passwordController,
                       type: TextInputType.visiblePassword,
                       hint: '*********************',
-                      suffix: const Icon(Icons.lock_open_sharp),
+                      suffix: IconButton(
+                          onPressed: () {
+                            manageCubit.changeVisiabilitySignIn();
+                          },
+                          icon: manageCubit.suffixPasswordSignin),
                       validate: (value) {
                         if (value!.isEmpty) {
                           return "Password must not be embty";

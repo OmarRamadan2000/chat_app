@@ -71,8 +71,12 @@ class AuthCubit extends Cubit<AuthState> {
     if (kDebugMode) {
       print(state.uId);
     }
-    var result = await createUserUseCase.call(
-        UserModel(email: email, name: name, phone: phone, uId: state.uId));
+    var result = await createUserUseCase.call(UserModel(
+        email: email,
+        name: name,
+        phone: phone,
+        uId: state.uId,
+        profileImage: AppStrings.userImage));
 
     result.fold((failure) {
       emit(CreateUserErorr(errMessage: failure.message, uId: state.uId));

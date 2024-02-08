@@ -1,6 +1,7 @@
 import 'package:chat_app/features/login/data/models/user.dart';
 import 'package:chat_app/features/login/presentation/blocs/Chat%20cubit/cubit/chat_cubit.dart';
 import 'package:chat_app/features/login/presentation/pages/chat.dart';
+import 'package:chat_app/features/login/presentation/widgets/component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -12,6 +13,7 @@ class Users extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider.of<ChatCubit>(context).getUsers();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -55,8 +57,8 @@ class Users extends StatelessWidget {
                       context,
 
                       screen: Chat(
-                          receiverId: users[index].uId!,
-                          name: users[index].name!),
+                        user: users[index],
+                      ),
                       withNavBar: false, // OPTIONAL VALUE. True by default.
                       pageTransitionAnimation:
                           PageTransitionAnimation.cupertino,
@@ -68,12 +70,8 @@ class Users extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const CircleAvatar(
-                            radius: 32,
-                            backgroundColor: Colors.black,
-                            backgroundImage: NetworkImage(
-                                'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'),
-                          ),
+                          ImageAvatar(
+                              size: 32, image: users[index].profileImage!),
                           const SizedBox(
                             width: 20,
                           ),
@@ -91,37 +89,37 @@ class Users extends StatelessWidget {
                                         .displayMedium,
                                     maxLines: 1,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Text(
-                                            'datdddddddddcccccccccccccdddddsd',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        ' . ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
-                                      ),
-                                      Text(
-                                        '20 jan',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.start,
+                                  //   crossAxisAlignment:
+                                  //       CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: SizedBox(
+                                  //         height: 20,
+                                  //         child: Text(
+                                  //           'datdddddddddcccccccccccccdddddsd',
+                                  //           style: Theme.of(context)
+                                  //               .textTheme
+                                  //               .titleSmall,
+                                  //           maxLines: 1,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     Text(
+                                  //       ' . ',
+                                  //       style: Theme.of(context)
+                                  //           .textTheme
+                                  //           .titleSmall,
+                                  //     ),
+                                  //     Text(
+                                  //       '20 jan',
+                                  //       style: Theme.of(context)
+                                  //           .textTheme
+                                  //           .titleSmall,
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),

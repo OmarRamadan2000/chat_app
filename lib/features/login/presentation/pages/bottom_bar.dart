@@ -1,8 +1,7 @@
 import 'package:chat_app/features/login/data/models/user.dart';
 import 'package:chat_app/features/login/presentation/blocs/Chat%20cubit/cubit/chat_cubit.dart';
-import 'package:chat_app/features/login/presentation/pages/friend.dart';
+import 'package:chat_app/features/login/presentation/blocs/settings%20cubit/cubit/settings_cubit.dart';
 import 'package:chat_app/features/login/presentation/pages/users.dart';
-import 'package:chat_app/features/login/presentation/pages/home.dart';
 import 'package:chat_app/features/login/presentation/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,8 +20,11 @@ class BottomBar extends StatelessWidget {
     return Scaffold(
         body: PersistentTabView(
       onItemSelected: (value) {
-        if (value == 1) {
+        if (value == 0) {
           BlocProvider.of<ChatCubit>(context).getUsers();
+        }
+        if (value == 1) {
+          BlocProvider.of<SettingsCubit>(context).getUser();
         }
       },
       hideNavigationBar: false,
@@ -48,23 +50,23 @@ class BottomBar extends StatelessWidget {
   }
 
   List<Widget> _buildScreens() {
-    return [const Home(), Users(), const Friends(), const Settings()];
+    return [const Users(), const Settings()];
   }
 
   List<PersistentBottomNavBarItem> navBarItems() {
     return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
-        activeColorPrimary: Colors.black,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: const Icon(Icons.home),
+      //   activeColorPrimary: Colors.black,
+      // ),
       PersistentBottomNavBarItem(
         icon: const Icon(Ionicons.people_circle_outline),
         activeColorPrimary: Colors.black,
       ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Ionicons.chatbubble_sharp),
-        activeColorPrimary: Colors.black,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: const Icon(Ionicons.chatbubble_sharp),
+      //   activeColorPrimary: Colors.black,
+      // ),
       PersistentBottomNavBarItem(
         icon: const Icon(Ionicons.options_outline),
         activeColorPrimary: Colors.black,

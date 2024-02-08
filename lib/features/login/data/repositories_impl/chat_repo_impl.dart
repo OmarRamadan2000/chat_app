@@ -32,8 +32,7 @@ class ChatRepoImpl extends ChatRepo {
   }
 
   @override
-  Stream<Either<Failure, List<MessageModel>>> getMessageRepo() {
-    // TODO: implement getMessageRepo
-    throw UnimplementedError();
+  Stream<List<MessageModel>> getMessageRepo(String param) {
+    return chatRemote.getMessages(param);
   }
 }

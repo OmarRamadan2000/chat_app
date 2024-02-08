@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/core/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,8 +113,9 @@ Widget defualtButton({
     );
 
 class Name extends StatelessWidget {
-  const Name({super.key, required this.name});
+  const Name({super.key, required this.name, required this.bottomHint});
   final String name;
+  final String bottomHint;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -128,7 +131,7 @@ class Name extends StatelessWidget {
               maxLines: 1,
             ),
             Text(
-              'online',
+              bottomHint,
               style: Theme.of(context).textTheme.titleSmall,
               maxLines: 1,
             ),
@@ -139,27 +142,31 @@ class Name extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class ImageAvatar extends StatelessWidget {
-  const ImageAvatar({super.key, required this.size});
+  ImageAvatar(
+      {super.key, required this.size, required this.image, this.profileImage});
   final double size;
+  final String image;
+  File? profileImage;
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: size,
-      backgroundColor: Colors.grey,
-      backgroundImage: const CachedNetworkImageProvider(
-        'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+    return Container(
+      width: size * 2,
+      height: size * 2,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey,
       ),
-      // backgroundImage:
-      //  const NetworkImage(
-      //     'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg'),
-      // child: CachedNetworkImage(
-      //   fit: BoxFit.fill,
-      //   imageUrl:
-      //       'https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
-      //   placeholder: (context, url) => ShimmerImage(size: size),
-      //   errorWidget: (context, url, error) => const Icon(Icons.error),
-      // ),
+      child: ClipOval(
+          child: profileImage != null
+              ? Image.file(profileImage!, fit: BoxFit.cover)
+              : CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: image,
+                  placeholder: (context, url) => const ShimmerImage(size: 55),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )),
     );
   }
 }

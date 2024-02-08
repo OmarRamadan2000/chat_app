@@ -1,5 +1,6 @@
 import 'package:chat_app/core/utils/app_colors.dart';
 import 'package:chat_app/core/utils/app_strings.dart';
+import 'package:chat_app/features/login/data/models/user.dart';
 import 'package:chat_app/features/login/presentation/blocs/Chat%20cubit/cubit/chat_cubit.dart';
 import 'package:chat_app/features/login/presentation/widgets/chat_component.dart';
 import 'package:chat_app/features/login/presentation/widgets/component.dart';
@@ -8,35 +9,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Chat extends StatefulWidget {
-  const Chat({super.key, required this.receiverId, required this.name});
-  final String receiverId;
-  final String name;
+  const Chat({
+    super.key,
+    required this.user,
+  });
+
+  final UserModel user;
   @override
   // ignore: no_logic_in_create_state
-  State<Chat> createState() => _ChatState(name, receiverId);
+  State<Chat> createState() => _ChatState(user);
 }
 
 class _ChatState extends State<Chat> {
-  final String name;
-  final String receiverId;
+  final UserModel user;
   final ScrollController _scrollController = ScrollController();
-  bool isKeyboardOpen = false; // Track keyboard state
   var messageController = TextEditingController();
   var messageFocusNode = FocusNode();
-  _ChatState(this.name, this.receiverId);
+  _ChatState(this.user);
   @override
   void initState() {
     super.initState();
 
-    BlocProvider.of<ChatCubit>(context).getMessages(receiverId: receiverId);
-    // Listen for focus changes to update the keyboard state
-    messageFocusNode.addListener(() {
-      // _scrollController.animateTo(
-      //   _scrollController.position.maxScrollExtent,
-      //   duration: const Duration(milliseconds: 100),
-      //   curve: Curves.easeOut,
-      // );
-    });
+    BlocProvider.of<ChatCubit>(context).getMessages(receiverId: user.uId!);
   }
 
   @override
@@ -79,7 +73,10 @@ class _ChatState extends State<Chat> {
                   flexibleSpace: Padding(
                     padding: const EdgeInsets.only(top: 15, left: 50),
                     child: Row(children: [
-                      const ImageAvatar(size: 23),
+                      ImageAvatar(
+                        size: 23,
+                        image: user.profileImage!,
+                      ),
                       const SizedBox(
                         width: 12,
                       ),
@@ -88,7 +85,10 @@ class _ChatState extends State<Chat> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Name(name: name),
+                          Name(
+                            name: user.name!,
+                            bottomHint: 'online',
+                          ),
                         ],
                       ),
                     ]),
@@ -107,11 +107,13 @@ class _ChatState extends State<Chat> {
                                 AppStrings.uId) {
                               return MyMessage(
                                 text: cubit.messages[index].text!,
+                                time: cubit.messages[index].dateTime!,
                               );
                             }
 
                             return RecieverMessage(
                               text: cubit.messages[index].text!,
+                              time: cubit.messages[index].dateTime!,
                             );
                           },
                           separatorBuilder: (context, index) =>
@@ -140,7 +142,7 @@ class _ChatState extends State<Chat> {
                         suffix: IconButton(
                             onPressed: () {
                               cubit.sendMessage(
-                                  messageController.text, receiverId);
+                                  messageController.text, user.uId!);
                               messageController.clear();
                               if (cubit.messages.isNotEmpty) {
                                 _scrollController.jumpTo(

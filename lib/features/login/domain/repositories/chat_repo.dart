@@ -6,5 +6,5 @@ import 'package:dartz/dartz.dart';
 abstract class ChatRepo {
   Future<Either<Failure, List<UserModel>>> getUserRepo();
   Future<Either<Failure, void>> sendMessageRepo(MessageModel param);
-  Stream<Either<Failure, List<MessageModel>>> getMessageRepo();
+  Stream<List<MessageModel>> getMessageRepo(String param);
 }
